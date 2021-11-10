@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.iwant2tryhard.mynotesapp.core.AppData;
 import com.iwant2tryhard.mynotesapp.core.NoteObj;
 import com.iwant2tryhard.mynotesapp.core.StorageDatabase;
 
@@ -77,7 +78,7 @@ public class AddNote extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.confirmMenuItem){
-            NoteObj note = new NoteObj(titleEditText.getText().toString(), noteContentEditText.getText().toString(), formattedDate, formattedTime);
+            NoteObj note = new NoteObj(titleEditText.getText().toString(), noteContentEditText.getText().toString(), formattedDate, formattedTime, AppData.userId);
             StorageDatabase db = new StorageDatabase(this);
             db.addNote(note);
 

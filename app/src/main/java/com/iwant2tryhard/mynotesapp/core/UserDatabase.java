@@ -33,6 +33,10 @@ public class UserDatabase extends SQLiteOpenHelper {
                 KEY_PASSWORD + " TEXT" + " )";
 
         db.execSQL(query);
+
+        addUser(new NoteUser(0, "thad", ""));
+        addUser(new NoteUser(1, "pudit", ""));
+        addUser(new NoteUser(2, "thitirat", ""));
     }
 
     @Override
@@ -42,7 +46,7 @@ public class UserDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long addNote(NoteUser user) {
+    public long addUser(NoteUser user) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -55,7 +59,7 @@ public class UserDatabase extends SQLiteOpenHelper {
     }
 
 
-    public NoteUser getNote(long id) {
+    public NoteUser getUser(long id) {
         List<NoteUser> allUsers = new ArrayList<>();
         String query = "SELECT * FROM " + DATABASE_TABLE;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -82,7 +86,7 @@ public class UserDatabase extends SQLiteOpenHelper {
         return result;
     }
 
-    public List<NoteUser> getAllNotes() {
+    public List<NoteUser> getAllUsers() {
         List<NoteUser> allUsers = new ArrayList<>();
         String query = "SELECT * FROM " + DATABASE_TABLE;
         SQLiteDatabase db = this.getWritableDatabase();
