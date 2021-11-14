@@ -1,5 +1,6 @@
 package com.iwant2tryhard.mynotesapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,11 +14,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.iwant2tryhard.mynotesapp.core.AppData;
+import com.iwant2tryhard.mynotesapp.core.JsonDataObject;
 import com.iwant2tryhard.mynotesapp.core.NoteObj;
 import com.iwant2tryhard.mynotesapp.core.StorageDatabase;
 
+import java.io.FileOutputStream;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -39,6 +45,46 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        if (AppData.firstUse) {
+            Map<String, String> userThad = new HashMap<>();
+            userThad.put("displayName", "Thad Choyrum");
+            userThad.put("username", "thad");
+            userThad.put("password", "");
+
+            Map<String, String> userPudit = new HashMap<>();
+            userThad.put("displayName", "Pudit Choyrum");
+            userThad.put("username", "pudit");
+            userThad.put("password", "");
+
+            Map<String, String> userThitirat = new HashMap<>();
+            userThad.put("displayName", "Thitirat Choyrum");
+            userThad.put("username", "thitirat");
+            userThad.put("password", "");
+
+            Map<String, Map<String, String>> map = new HashMap<>();
+            map.put("0", userThad);
+            map.put("1", userPudit);
+            map.put("2", userThitirat);
+
+            JsonDataObject data = new JsonDataObject(map);
+
+            Gson gson = new Gson();
+            String json = gson.toJson(data);
+
+            String filename = "users.json";
+
+            FileOutputStream outputStream;
+
+            try {
+                outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                outputStream.write(json.getBytes());
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            AppData.firstUse = false;
+        }
         if (!AppData.isLoggedIn) {
             Intent i = new Intent(this, UserLogin.class);
             startActivity(i);
